@@ -11,7 +11,7 @@ This project demonstrates an implementation of undo/redo functionality for an An
 1.Clone the repository:
   ```bash
  git clone https://github.com/salem382/frontend_task.git
- cd your-repo-name
+ cd frontend_task
  ```
 2.Install dependencies:
 ```bash
