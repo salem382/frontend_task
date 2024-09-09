@@ -1,15 +1,25 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
+
+interface UserForm {
+  name: string;
+  email: string;
+  gender: string;
+  agree: boolean;
+}
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+
   myForm: FormGroup;
-  history: any[] = [];
-  undoneHistory: any[] = [];
+  history: UserForm[] = [];
+  undoneHistory: UserForm[] = [];
+
 
 
   constructor(private fb: FormBuilder) {
@@ -20,33 +30,37 @@ export class AppComponent {
       agree: [false],
     });
     this.history.push(this.myForm.value);
+  }
+  ngOnInit() {
+    this.formChanges();
+  }
+
+  formChanges() {
     this.myForm.valueChanges.subscribe(value => {
       this.history.push(this.myForm.value);
-      console.log("this.history flag => ", this.history);
     });
   }
 
-  undo() {
-    console.log("this.canUndo() flag => ", this.canUndo());
-    console.log("this.undoneHistory flag => ", this.undoneHistory);
-    console.log("this.history flag => ", this.history);
-
-    if (this.canUndo()) {
-      this.undoneHistory.push(this.history.pop());
+ undo() {
+  if (this.canUndo()) {
+    const lastValue = this.history.pop(); 
+    if (lastValue) { 
+      this.undoneHistory.push(lastValue);
       const previousValue = this.history[this.history.length - 1];
-      this.myForm.setValue(previousValue, { emitEvent: false });
+      if (previousValue) { 
+        this.myForm.setValue(previousValue, { emitEvent: false });
+      }
     }
   }
+}
   
   redo() {
-    console.log("this.canRedo() flag => ", this.canRedo());
-    console.log("this.undoneHistory flag => ", this.undoneHistory);
-    console.log("this.history flag => ", this.history);
-    
     if (this.canRedo()) {
       const nextValue = this.undoneHistory.pop();
-      this.history.push(nextValue);
-      this.myForm.setValue(nextValue, { emitEvent: false });
+      if (nextValue) {
+        this.history.push(nextValue);
+        this.myForm.setValue(nextValue, { emitEvent: false });
+      }
     }
   }
   
