@@ -10,7 +10,7 @@ This project demonstrates an implementation of undo/redo functionality for an An
 ## How to Test the Undo/Redo Functionality
 1.Clone the repository:
   ```bash
- git https://github.com/salem382/frontend_task.git
+ git clone https://github.com/salem382/frontend_task.git
  cd your-repo-name
  ```
 2.Install dependencies:
